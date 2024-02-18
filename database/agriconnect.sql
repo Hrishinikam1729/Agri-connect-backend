@@ -2115,6 +2115,65 @@ ADD COLUMN Quantity INT DEFAULT 1;
 
 
 
+use agri_connect;
+
+
+drop function if exists GetTableName
+DELIMITER $$
+
+CREATE FUNCTION GetTableName(input_string VARCHAR(255))
+RETURNS VARCHAR(255)
+DETERMINISTIC
+BEGIN
+    DECLARE result VARCHAR(255);
+    DECLARE table_list VARCHAR(255);
+    
+    SET table_list = '';
+    
+    IF EXISTS (SELECT 1 FROM artificial_plant WHERE aptitle = input_string) THEN
+        SET table_list = CONCAT(table_list, 'artificial_plant,');
+    END IF;
+    
+    IF EXISTS (SELECT 1 FROM pebbles_and_stones WHERE pastitle = input_string) THEN
+        SET table_list = CONCAT(table_list, 'pebbles_and_stones,');
+    END IF;
+    
+    IF EXISTS (SELECT 1 FROM plant_food WHERE pftitle = input_string) THEN
+        SET table_list = CONCAT(table_list, 'plant_food,');
+    END IF;
+    
+    IF EXISTS (SELECT 1 FROM plants WHERE ptitle = input_string) THEN
+        SET table_list = CONCAT(table_list, 'plants,');
+    END IF;
+    
+    IF EXISTS (SELECT 1 FROM plastic_pots WHERE ppotitle = input_string) THEN
+        SET table_list = CONCAT(table_list, 'plastic_pots,');
+    END IF;
+    
+    IF EXISTS (SELECT 1 FROM pot_planters WHERE pptitle = input_string) THEN
+        SET table_list = CONCAT(table_list, 'pot_planters,');
+    END IF;
+    
+    IF EXISTS (SELECT 1 FROM pump_spray WHERE pstitle = input_string) THEN
+        SET table_list = CONCAT(table_list, 'pump_spray,');
+    END IF;
+    
+    IF EXISTS (SELECT 1 FROM seed_bulb WHERE sbtitle = input_string) THEN
+        SET table_list = CONCAT(table_list, 'seed_bulb,');
+    END IF;
+    
+    IF LENGTH(table_list) > 0 THEN
+        SET result = SUBSTRING(table_list, 1, LENGTH(table_list) - 1); -- Remove the last comma
+    ELSE
+        SET result = 'No match found';
+    END IF;
+    
+    RETURN result;
+END$$
+
+DELIMITER ;
+
+
 
 
 
