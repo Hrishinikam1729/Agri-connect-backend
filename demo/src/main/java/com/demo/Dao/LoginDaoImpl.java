@@ -74,7 +74,7 @@ public class LoginDaoImpl implements LoginDao {
 
 	@Override
 	public Boolean verifyOtp(String otp) {
-		if(otp==otpU) {
+		if(otp.equals(otpU)) {
 			return true;
 		}else {
 			return false;			
