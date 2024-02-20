@@ -12,7 +12,7 @@ public interface LoginDao {
 
 	Boolean verifyOtp(String otp);
 
-	Boolean updatePassword(String password, String uid);
+	Boolean updatePassword(String password , String uid);
 
 	void savelogin(String useriD);
 

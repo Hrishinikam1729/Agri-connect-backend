@@ -26,7 +26,7 @@ public class PROFILE_CONTROLLER {
 		public ResponseEntity<Consumer> showProfile(HttpServletRequest request, HttpServletResponse response){
 			HttpSession session = request.getSession();
 			String userid = (String) session.getAttribute("UserID");			
-			Consumer c = pservice.getConsumer(userid);
+			Consumer c = pservice.getConsumer("hrinik285");
 			
 			return ResponseEntity.ok(c);
 			

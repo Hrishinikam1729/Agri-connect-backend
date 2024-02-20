@@ -5,14 +5,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.demo.Model.Password;
 import com.demo.Service.LoginService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +23,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
-@CrossOrigin(value="*")
+@CrossOrigin("*")
 public class LOGIN_CONTROLLER {
 	
 	@Autowired
@@ -44,8 +47,7 @@ public class LOGIN_CONTROLLER {
 	public ResponseEntity <String> Forgot_password(@RequestParam String Phone, @RequestParam String UserID, HttpServletRequest request, HttpServletResponse response){
 					
 		String otp = lservice.getOtpForgotPassword(Phone,UserID);
-		HttpSession session = request.getSession();
-		session.setAttribute("UserID_ForgotP", UserID);
+		
 		return ResponseEntity.ok(otp);
 		
 		
@@ -61,15 +63,17 @@ public class LOGIN_CONTROLLER {
 		}
 	}
 	
-	@PostMapping("/Update_Password")
-	public ResponseEntity<Boolean> UpdatePassword(@RequestParam String Password,HttpServletRequest request, HttpServletResponse response ){
-		HttpSession session = request.getSession();
-		String uid = (String) session.getAttribute("UserID_ForgotP");
-		Boolean flag1 = lservice.updatePass(Password,uid);
-		if(flag1) {
-			return ResponseEntity.ok(true);
-		}else {
-			return ResponseEntity.ok(false);
-		}
+	@GetMapping("/Update_Password")
+	public ResponseEntity<Boolean> updatePassword(@RequestParam String newPassword, @RequestParam String userId) {
+	    
+	    
+	    
+	    Boolean flag = lservice.updatePass(newPassword, userId);
+	    if (flag) {
+	        return ResponseEntity.ok(true);
+	    } else {
+	        return ResponseEntity.ok(false);
+	    }
 	}
+
 }

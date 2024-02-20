@@ -35,10 +35,10 @@ public class LoginDaoImpl implements LoginDao {
     
     private String otpU ;
     
-    
+    @Autowired
     public LoginDaoImpl(JdbcTemplate jdbctemplate) {
-    	this.jdbcCall = new SimpleJdbcCall(jdbctemplate).withProcedureName("InsertUserLogin"); 
-    }
+    	this.jdbcCall = new SimpleJdbcCall(jdbctemplate).withProcedureName("InsertUserLogin");
+    	    }
 
     @Override
     public Boolean Validate(String uname, String upass) {
@@ -80,24 +80,21 @@ public class LoginDaoImpl implements LoginDao {
 			return false;			
 		}
 	}
-
+	
+	
 	@Override
-	public Boolean updatePassword(String newPassword,String uid) {
-	    try {
-	    	
-	        // SQL query to update password for a specific condition, for example, based on user session or ID
-	    	String sql = "UPDATE consumer SET user_password = ? WHERE USERID = ?";// Specify your condition here
-	        
-	        // Execute the update query with the new password
-	        int rowsAffected = jdbcTemplate.update(sql, newPassword,uid);
-	        
-	        // If the number of rows affected is greater than 0, password update was successful
-	        return rowsAffected > 0;
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return false; // Password update failed
-	    }
-	}
+	public Boolean updatePassword(String newPassword,String userId) {
+        try {
+            String sql = "UPDATE consumer SET user_password = ? WHERE userid = ?";
+            int rowsAffected = jdbcTemplate.update(sql, newPassword, userId);
+            return rowsAffected > 0; // Returns true if at least one row was updated
+        } catch (Exception e) {
+            // Handle any exceptions here, such as database errors
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
 	@Override
 	public void savelogin(String useriD) {

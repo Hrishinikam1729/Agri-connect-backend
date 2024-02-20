@@ -16,14 +16,13 @@ import jakarta.servlet.http.HttpSession;
 public class Logout_Controller {
 	
 	@GetMapping("/Logout")
-	public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<Boolean> logout(HttpServletRequest request, HttpServletResponse response) {
 	    try {
 	        HttpSession session = request.getSession();
 	        session.invalidate();
-	        String successMessage = "Logout successful";
-	        return ResponseEntity.ok(successMessage);
+	        return ResponseEntity.ok(true);
 	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Logout failed");
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
 	    }
 	}
 

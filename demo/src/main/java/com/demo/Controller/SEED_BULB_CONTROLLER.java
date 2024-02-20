@@ -15,13 +15,13 @@ import com.demo.Model.SEED_BULB;
 import com.demo.Service.SEED_BULB_SERVICE;
 
 @RestController
-@CrossOrigin(value="*")
+@CrossOrigin("*")
 public class SEED_BULB_CONTROLLER {
 	
 	@Autowired
 	private SEED_BULB_SERVICE sbservice;
 	
-	@GetMapping(value="/seed_bulb")
+	@GetMapping("/seed_bulb")
 	public ResponseEntity<List<SEED_BULB>> getAllArtificialPlanters(){
 		List<SEED_BULB> aplist = sbservice.getAllArtificialPlant();
 		return ResponseEntity.ok(aplist);
